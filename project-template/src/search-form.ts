@@ -1,8 +1,10 @@
-import { renderBlock } from './lib.js'
+import { renderBlock } from "./lib.js";
 
-export function renderSearchFormBlock () {
+// arrivalВate: Date, departureDate: Date
+export function renderSearchFormBlock() {
+  const now: Date = new Date();
   renderBlock(
-    'search-form-block',
+    "search-form-block",
     `
     <form>
       <fieldset class="search-filedset">
@@ -19,12 +21,19 @@ export function renderSearchFormBlock () {
         </div>
         <div class="row">
           <div>
-            <label for="check-in-date">Дата заезда</label>
-            <input id="check-in-date" type="date" value="2021-05-11" min="2021-05-11" max="2021-06-30" name="checkin" />
+            <label for="check-in-date">
+              Дата заезва
+            </label>
+            <input 
+            id="check-in-date" 
+            type="date" 
+            value=""
+            max="2021-06-30" 
+            name="checkin" />
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value="2021-05-13" min="2021-05-11" max="2021-06-30" name="checkout" />
+            <input id="check-out-date" type="date" value=${new Date()} min="2021-05-11" max="2021-06-30" name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
@@ -37,5 +46,5 @@ export function renderSearchFormBlock () {
       </fieldset>
     </form>
     `
-  )
+  );
 }
