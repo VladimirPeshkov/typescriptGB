@@ -1,10 +1,15 @@
-import { renderBlock } from "./lib.js";
+import { renderBlock } from './lib.js';
 
 // arrivalВate: Date, departureDate: Date
 export function renderSearchFormBlock() {
-  const now: Date = new Date();
+  const currentDate: Date = new Date();
+  const defaultArrivalDate: Date = new Date(currentDate.getTime() + 86400000);
+  const defaultDepartureDate: Date = new Date(
+    defaultArrivalDate.getTime() + 172800000
+  );
+
   renderBlock(
-    "search-form-block",
+    'search-form-block',
     `
     <form>
       <fieldset class="search-filedset">
@@ -27,13 +32,20 @@ export function renderSearchFormBlock() {
             <input 
             id="check-in-date" 
             type="date" 
-            value=""
-            max="2021-06-30" 
+            value=${defaultArrivalDate.toLocaleDateString('En-CA')}
+            min=${currentDate.toLocaleDateString('En-CA')}
+            max=${getLastDayNextMonth()}
             name="checkin" />
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value=${new Date()} min="2021-05-11" max="2021-06-30" name="checkout" />
+            <input 
+            id="check-out-date" 
+            type="date" 
+            value=${defaultDepartureDate.toLocaleDateString('En-CA')} 
+            min=${defaultDepartureDate.toLocaleDateString('En-CA')} 
+            max="2023-06-30" 
+            name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
@@ -47,4 +59,15 @@ export function renderSearchFormBlock() {
     </form>
     `
   );
+}
+
+function getLastDayNextMonth() {
+  const currentDate: Date = new Date();
+  const nextMonth: number = currentDate.getMonth() + 2;
+  const year: number =
+    currentDate.getMonth() + 1 <= 12
+      ? currentDate.getFullYear()
+      : currentDate.getFullYear() + 1;
+  const lastDayNextMonth: Date = new Date(year, nextMonth, 0);
+  return lastDayNextMonth.toLocaleDateString('EN-CA');
 }
